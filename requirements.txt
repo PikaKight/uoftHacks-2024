@@ -3,5 +3,5 @@ cohere
 streamlit
 pandas
 pymongo
-googleapiclient
+google-api-python-client
 music21
