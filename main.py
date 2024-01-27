@@ -5,19 +5,14 @@ import pandas as pd
 from backend.recommender import recMusics
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
+from backend.data import getAllGenre, getAllSongs, addGenre, addSong
 
 load_dotenv('.env')
 
 TITLE = "SongTrx"
 
-songs = pd.read_csv('resources/tcc_ceds_music.csv')
-
-songs = songs[["artist_name", "track_name", "genre"]]
-
-songs["songs"] = songs["track_name"] + " by " + songs["artist_name"]
-
-songList = songs["songs"].to_list()
-genreList = list(set(songs['genre'].to_list()))
+songList = getAllSongs()
+genreList = getAllGenre()
 
 
 def getVid(title):
@@ -68,10 +63,13 @@ def itemCard(titles):
         
         i +=1 
 
+logo = "./resources/songtrx logo.png"
+
 st.set_page_config(
-    page_title=TITLE, page_icon=":bar_chart:", layout="centered"
+    page_title=TITLE, page_icon=logo, layout="centered"
 )
 
+st.image(logo, width=300)
 st.title(TITLE)
 st.markdown('##')
 
@@ -87,6 +85,14 @@ with st.sidebar.expander("Songs You Like", expanded=True):
         options=songList
         )
     
+    newSong = st.text_input("If Song not found, please enter with using [Song Name by Artist] format")
+
+    if newSong not in songList and newSong != "":
+        print(newSong)
+        addSong(newSong)
+
+    elif newSong in songList and newSong != "":
+        st.warning("Song already exist")
 
 
 with st.sidebar.expander("Genres You Like", expanded=True):
@@ -94,6 +100,15 @@ with st.sidebar.expander("Genres You Like", expanded=True):
         "Select your favorite Genres:",
         options=genreList
     )
+
+    newGenre = st.text_input("If Genre not found, please enter genre")
+
+    if newGenre not in genreList and newGenre != "":
+        print(newGenre)
+        addSong(newGenre)
+
+    elif newGenre in genreList and newGenre != "":
+        st.warning("Genre already exist")
 
 if st.sidebar.button("Search"):
     suggestions = recMusics(numSongs, age, song, genre)
