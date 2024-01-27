@@ -76,7 +76,7 @@ st.title(TITLE)
 st.markdown('##')
 
 with st.sidebar.expander("Number of Songs", expanded=True):
-    numSongs = st.slider("Number of Songs Suggestions:", 0, 30)
+    numSongs = st.slider("Number of Songs Suggestions:", 0, 20)
 
 with st.sidebar.expander("Age", expanded=True):
     age = st.slider("Select your age:", 0, 120)
@@ -86,6 +86,8 @@ with st.sidebar.expander("Songs You Like", expanded=True):
         "Select your favorate songs:",
         options=songList
         )
+    
+
 
 with st.sidebar.expander("Genres You Like", expanded=True):
     genre = st.multiselect(
