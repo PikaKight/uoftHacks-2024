@@ -5,7 +5,7 @@ import re
 from datetime import datetime
 from dotenv import load_dotenv
 
-load_dotenv('.env')
+load_dotenv('backend/.env')
 
 co = cohere.Client(os.getenv('COHERE'))
 
@@ -23,7 +23,11 @@ def recMusics(numSongs:int, age: int, songs: list, genres: list) -> list:
             
     res = co.chat(message=msg, connectors=[{'id': 'web-search'}], citation_quality='fast')
 
-    print(res.text)
+    pattern = r'[\d]+\.+(.*)'
+
+    res = re.findall(pattern, res.text)
+
+    return res[:numSongs]
 
 
 if __name__ == "__main__":
@@ -32,4 +36,6 @@ if __name__ == "__main__":
     songs = ["Believer - Imagine Dragon", "Pop Star - KDA"]
     genres = ["Pop", "KPop", "JPop", "MandoPop"]
 
-    recMusics(numSongs, age, songs, genres)
+    res = recMusics(numSongs, age, songs, genres)
+
+    print(res)
