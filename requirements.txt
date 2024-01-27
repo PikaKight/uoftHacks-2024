@@ -3,3 +3,4 @@ cohere
 streamlit
 pandas
 pymongo
+googleapiclient

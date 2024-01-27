@@ -3,9 +3,11 @@ import streamlit as st
 import pandas as pd
 
 from backend.recommender import recMusics
+from backend.data import getAllGenre, getAllSongs, addGenre, addSong
+from backend.musicGen import genMelody
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
-from backend.data import getAllGenre, getAllSongs, addGenre, addSong
+
 
 load_dotenv('.env')
 
@@ -35,11 +37,12 @@ def getVid(title):
 def itemCard(titles):
     length = len(titles)
     i = 0
+    x = 0
     while i < length:
         row = st.columns(3)
     
         for col in row:
-            card = col.container(height=300, border=True)
+            card = col.container(height=400, border=True)
 
             print(titles[i])
             
@@ -55,10 +58,12 @@ def itemCard(titles):
             with card:
                 st.write(titles[i])
 
-            if (i+2) < length:
+            if x < 2 and i < length -1:
                 i += 1
+                x += 1
 
             else:
+                x=0
                 break
         
         i +=1 
@@ -72,6 +77,15 @@ st.set_page_config(
 st.image(logo, width=300)
 st.title(TITLE)
 st.markdown('##')
+
+memory = st.text_area("Please Enter a Memory for a Melody:")
+
+if memory:
+    melody = genMelody(memory)
+
+    # Display the melody using music21's show() function
+    st.write("Generated Melody:")
+    melody.show('midi')
 
 with st.sidebar.expander("Number of Songs", expanded=True):
     numSongs = st.slider("Number of Songs Suggestions:", 0, 20)
@@ -94,7 +108,6 @@ with st.sidebar.expander("Songs You Like", expanded=True):
     elif newSong in songList and newSong != "":
         st.warning("Song already exist")
 
-
 with st.sidebar.expander("Genres You Like", expanded=True):
     genre = st.multiselect(
         "Select your favorite Genres:",
@@ -105,7 +118,7 @@ with st.sidebar.expander("Genres You Like", expanded=True):
 
     if newGenre not in genreList and newGenre != "":
         print(newGenre)
-        addSong(newGenre)
+        addGenre(newGenre)
 
     elif newGenre in genreList and newGenre != "":
         st.warning("Genre already exist")
