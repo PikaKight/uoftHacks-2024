@@ -5,7 +5,7 @@ import re
 from datetime import datetime
 from dotenv import load_dotenv
 
-load_dotenv('backend/.env')
+load_dotenv('.env')
 
 co = cohere.Client(os.getenv('COHERE'))
 
@@ -19,8 +19,10 @@ def recMusics(numSongs:int, age: int, songs: list, genres: list) -> list:
     song = ', '.join(songs)
     genre = ', '.join(genres)
     
-    msg = f"What are {numSongs} popular songs from {yearRang} that are similar to {song} and similar genre to {genre}."
-            
+    msg = f"What are {numSongs} different popular songs from {yearRang} that are similar to, but not the {song} and similar genre to {genre}. Please have the list of songs formated using the template delimitted by single quotation marks 'Year: Song Name: Artist Name'. Do not include the template in the list."
+
+    print(msg)
+
     res = co.chat(message=msg, connectors=[{'id': 'web-search'}], citation_quality='fast')
 
     pattern = r'[\d]+\.+(.*)'
