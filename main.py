@@ -78,6 +78,9 @@ st.image(logo, width=300)
 st.title(TITLE)
 st.markdown('##')
 
+st.write("Trace your memories through song!")
+st.markdown('###')
+
 # memory = st.text_area("Please Enter a Memory for a Melody:")
 
 # if memory:
