@@ -78,13 +78,13 @@ st.image(logo, width=300)
 st.title(TITLE)
 st.markdown('##')
 
-memory = st.text_area("Please Enter a Memory for a Melody:")
+# memory = st.text_area("Please Enter a Memory for a Melody:")
 
-if memory:
-    melody = genMelody(memory)
+# if memory:
+#     melody = genMelody(memory)
 
-    st.write("Generated Melody:")
-    melody.show('midi')
+#     st.write("Generated Melody:")
+#     melody.show('midi')
 
 with st.sidebar.expander("Number of Songs", expanded=True):
     numSongs = st.slider("Number of Songs Suggestions:", 0, 20)
@@ -121,6 +121,8 @@ with st.sidebar.expander("Genres You Like", expanded=True):
 
     elif newGenre in genreList and newGenre != "":
         st.warning("Genre already exist")
+
+st.sidebar.write("Please Press the Refresh Button to see the added Song or Genre.")
 
 if st.sidebar.button("Refresh"):
         pass
