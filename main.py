@@ -83,7 +83,6 @@ memory = st.text_area("Please Enter a Memory for a Melody:")
 if memory:
     melody = genMelody(memory)
 
-    # Display the melody using music21's show() function
     st.write("Generated Melody:")
     melody.show('midi')
 
@@ -123,8 +122,12 @@ with st.sidebar.expander("Genres You Like", expanded=True):
     elif newGenre in genreList and newGenre != "":
         st.warning("Genre already exist")
 
-if st.sidebar.button("Search"):
-    suggestions = recMusics(numSongs, age, song, genre)
+if st.sidebar.button("Refresh"):
+        pass
 
-    itemCard(suggestions)
+if st.sidebar.button("Search"):
+        suggestions = recMusics(numSongs, age, song, genre)
+        itemCard(suggestions)
+
+
 
