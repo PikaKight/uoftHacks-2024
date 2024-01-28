@@ -11,13 +11,13 @@ load_dotenv('.env')
 
 co = cohere.Client(os.getenv('COHERE'))
 
-CHILDHOOD = [3, 12]
+AGE_PERIOD = [10, 19]
 
 
 def recMusics(numSongs:int, age: int, songs: list, genres: list) -> list:
     cYear = datetime.now().year
     
-    yearRang = f"{cYear - (age - CHILDHOOD[0])} to {cYear - (age - CHILDHOOD[1])}"
+    yearRang = f"{cYear - (age - AGE_PERIOD[0])} to {cYear - (age - AGE_PERIOD[1])}"
     song = ', '.join(songs)
     genre = ', '.join(genres)
     
